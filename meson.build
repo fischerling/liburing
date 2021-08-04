@@ -22,27 +22,12 @@ thread_dep = dependency('threads')
 
 cc = meson.get_compiler('c')
 
-code = '''#include <linux/fs.h>
-int main(int argc, char **argv)
-{
-  __kernel_rwf_t x;
-  x = 0;
-  return x;
-}
-'''
-has__kernel_rwf_t = cc.compiles(code, name : '__kernel_rwf_t')
+has__kernel_rwf_t = cc.has_type('__kernel_rwf_t', prefix: '#include <linux/fs.h>')
 
-code = '''#include <linux/time.h>
-#include <linux/time_types.h>
-int main(int argc, char **argv)
-{
-  struct __kernel_timespec ts;
-  ts.tv_sec = 0;
-  ts.tv_nsec = 1;
-  return 0;
-}
-'''
-has__kernel_timespec = cc.compiles(code, name : '__kernel_timespec')
+has__kernel_timespec = cc.has_members('struct __kernel_timespec',
+                                      'tv_sec',
+                                      'tv_nsec',
+                                      prefix: '#include <linux/time.h>')
 
 code = '''#include <sys/types.h>
 #include <sys/stat.h>
@@ -85,15 +70,7 @@ int main(int argc, char **argv)
 '''
 has_cxx = cpp.compiles(code, name : 'C++')
 
-code = '''#include <ucontext.h>
-int main(int argc, char **argv)
-{
-  ucontext_t ctx;
-  getcontext(&ctx);
-  return 0;
-}
-'''
-has_ucontext = cc.compiles(code, name : 'ucontext')
+has_ucontext = cc.has_type('ucontext_t', prefix: '#include <ucontext.h>')
 
 conf_data = configuration_data()
 conf_data.set('CONFIG_HAVE_KERNEL_RWF_T', has__kernel_rwf_t)
