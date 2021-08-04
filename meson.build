@@ -1,12 +1,12 @@
 project('liburing', ['c','cpp'],
-        version : run_command('awk', '/Version:/ { print $2 }', 'liburing.spec').stdout().strip(),
-        license : ['MIT', 'LGPL-2.1-only', 'GPL-2.0-only WITH Linux-syscall-note'],
-        meson_version : '>=0.53.0',
-        default_options : ['default_library=both',
-                           'buildtype=debugoptimized',
-                           'c_std=c11',
-                           'cpp_std=c++11',
-                           'warning_level=3'])
+        version: run_command('awk', '/Version:/ { print $2 }', 'liburing.spec').stdout().strip(),
+        license: ['MIT', 'LGPL-2.1-only', 'GPL-2.0-only WITH Linux-syscall-note'],
+        meson_version: '>=0.53.0',
+        default_options: ['default_library=both',
+                          'buildtype=debugoptimized',
+                          'c_std=c11',
+                          'cpp_std=c++11',
+                          'warning_level=3'])
 
 lib_version = '2.0.0'
 
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
   return 0;
 }
 '''
-has_open_how = cc.compiles(code, name : 'open_how')
+has_open_how = cc.compiles(code, name: 'open_how')
 
 code = '''#include <sys/types.h>
 #include <sys/stat.h>
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
   return memset(&x, 0, sizeof(x)) != NULL;
 }
 '''
-has_statx = cc.compiles(code, name : 'statx')
+has_statx = cc.compiles(code, name: 'statx')
 
 cpp = meson.get_compiler('cpp')
 
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
   return 0;
 }
 '''
-has_cxx = cpp.compiles(code, name : 'C++')
+has_cxx = cpp.compiles(code, name: 'C++')
 
 has_ucontext = cc.has_type('ucontext_t', prefix: '#include <ucontext.h>')
 
@@ -79,8 +79,8 @@ conf_data.set('CONFIG_HAVE_OPEN_HOW', has_open_how)
 conf_data.set('CONFIG_HAVE_STATX', has_statx)
 conf_data.set('CONFIG_HAVE_CXX', has_cxx)
 conf_data.set('CONFIG_HAVE_UCONTEXT', has_ucontext)
-configure_file(output : 'config-host.h',
-               configuration : conf_data)
+configure_file(output: 'config-host.h',
+               configuration: conf_data)
 
 subdir('src')
 subdir('man')
@@ -97,16 +97,16 @@ if get_option('tests')
 endif
 
 pkg_mod = import('pkgconfig')
-pkg_mod.generate(libraries : liburing,
-                 name : 'liburing',
-                 version : meson.project_version(),
-                 description : 'io_uring library',
-                 url : 'http://git.kernel.dk/cgit/liburing/')
+pkg_mod.generate(libraries: liburing,
+                 name: 'liburing',
+                 version: meson.project_version(),
+                 description: 'io_uring library',
+                 url: 'http://git.kernel.dk/cgit/liburing/')
 
-summary({'bindir' : get_option('bindir'),
-         'libdir' : get_option('libdir'),
-         'datadir' : get_option('datadir'),
-        }, section : 'Directories')
+summary({'bindir': get_option('bindir'),
+         'libdir': get_option('libdir'),
+         'datadir': get_option('datadir'),
+        }, section: 'Directories')
 summary({'examples': get_option('examples'),
-         'tests' : get_option('tests')
-        }, section : 'Configuration', bool_yn : true)
+         'tests': get_option('tests')
+        }, section: 'Configuration', bool_yn: true)
