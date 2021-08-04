@@ -1,7 +1,7 @@
 project('liburing', ['c','cpp'],
         version: run_command('awk', '/Version:/ { print $2 }', 'liburing.spec', check: true).stdout().strip(),
         license: ['MIT', 'LGPL-2.1-only', 'GPL-2.0-only WITH Linux-syscall-note'],
-        meson_version: '>=0.53.0',
+        meson_version: '>=0.54.0',
         default_options: ['default_library=both',
                           'buildtype=debugoptimized',
                           'c_std=c11',
@@ -18,6 +18,9 @@ add_project_arguments('-D_GNU_SOURCE',
 thread_dep = dependency('threads')
 
 cc = meson.get_compiler('c')
+
+has_stringop_overflow = cc.has_argument('-Wstringop-overflow=0')
+has_array_bounds = cc.has_argument('-Warray-bounds=0')
 
 has__kernel_rwf_t = cc.has_type('__kernel_rwf_t', prefix: '#include <linux/fs.h>')
 
