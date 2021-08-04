@@ -35,12 +35,12 @@ conf_data = configuration_data()
 conf_data.set('__kernel_rwf_t_compat', __kernel_rwf_t_compat)
 conf_data.set('__kernel_timespec_compat', __kernel_timespec_compat)
 conf_data.set('open_how_compat', open_how_compat)
-configure_file(input : 'compat.h.in',
-               output : 'compat.h',
-               configuration : conf_data,
-               install : true,
-               install_dir : get_option('includedir') / 'liburing')
+configure_file(input: 'compat.h.in',
+               output: 'compat.h',
+               configuration: conf_data,
+               install: true,
+               install_dir: get_option('includedir') / 'liburing')
 
 install_headers('barrier.h',
                 'io_uring.h',
-                subdir : 'liburing')
+                subdir: 'liburing')
