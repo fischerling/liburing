@@ -22,6 +22,9 @@ thread_dep = dependency('threads')
 
 cc = meson.get_compiler('c')
 
+has_stringop_overflow = cc.has_argument('-Wstringop-overflow')
+has_array_bounds = cc.has_argument('-Warray-bounds')
+
 has__kernel_rwf_t = cc.has_type('__kernel_rwf_t', prefix: '#include <linux/fs.h>')
 
 has__kernel_timespec = cc.has_members('struct __kernel_timespec',
