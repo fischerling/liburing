@@ -6,7 +6,7 @@ project('liburing', ['c','cpp'],
                           'buildtype=debugoptimized',
                           'c_std=c11',
                           'cpp_std=c++11',
-                          'warning_level=3'])
+                          'warning_level=2'])
 
 lib_version = '2.0.0'
 
