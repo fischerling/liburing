@@ -8,7 +8,6 @@ liburing = library('uring',
                    'setup.c',
                    'syscall.c',
                    include_directories: inc,
-                   version: lib_version,
                    link_args: '-Wl,--version-script=' + meson.current_source_dir() + '/liburing.map',
                    link_depends: 'liburing.map',
                    install: true)
