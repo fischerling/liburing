@@ -71,7 +71,8 @@ int main(int argc, char **argv)
 '''
 has_cxx = cpp.compiles(code, name: 'C++')
 
-has_ucontext = cc.has_type('ucontext_t', prefix: '#include <ucontext.h>')
+has_ucontext = (cc.has_type('ucontext_t', prefix: '#include <ucontext.h>')
+  and cc.has_function('makecontext', prefix: '#include <ucontext.h>'))
 
 conf_data = configuration_data()
 conf_data.set('CONFIG_HAVE_KERNEL_RWF_T', has__kernel_rwf_t)
