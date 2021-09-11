@@ -8,8 +8,6 @@ project('liburing', ['c','cpp'],
                           'cpp_std=c++11',
                           'warning_level=2'])
 
-lib_version = '2.0.0'
-
 add_project_arguments('-D_GNU_SOURCE',
                       '-D__SANE_USERSPACE_TYPES__',
                       '-include', meson.current_build_dir() + '/config-host.h',
