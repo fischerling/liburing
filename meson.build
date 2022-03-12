@@ -60,6 +60,20 @@ int main(int argc, char **argv)
 '''
 has_statx = cc.compiles(code, name: 'statx')
 
+code= '''#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
+#include <linux/stat.h>
+main(int argc, char **argv)
+{
+  struct statx x;
+
+  return memset(&x, 0, sizeof(x)) != NULL;
+}
+'''
+glibc_statx = cc.compiles(code, name: 'glibc_statx')
+
 cpp = meson.get_compiler('cpp')
 
 code = '''#include <iostream>
@@ -83,6 +97,7 @@ conf_data.set('CONFIG_HAVE_KERNEL_RWF_T', has__kernel_rwf_t)
 conf_data.set('CONFIG_HAVE_KERNEL_TIMESPEC', has__kernel_timespec)
 conf_data.set('CONFIG_HAVE_OPEN_HOW', has_open_how)
 conf_data.set('CONFIG_HAVE_STATX', has_statx)
+conf_data.set('CONFIG_HAVE_GLIBC_STATX', glibc_statx)
 conf_data.set('CONFIG_HAVE_CXX', has_cxx)
 conf_data.set('CONFIG_HAVE_UCONTEXT', has_ucontext)
 conf_data.set('CONFIG_HAVE_MEMFD_CREATE', has_memfd_create)

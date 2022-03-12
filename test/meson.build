@@ -108,7 +108,7 @@ all_tests = [['232c93d07b74-test', 'c', thread_dep],
              ['sendmsg_fs_cve', 'c', []],
              ['rsrc_tags', 'c', []]]
 
-if has_statx
+if has_statx or glibc_statx
     all_tests += [['statx', 'c', []]]
 endif
 
