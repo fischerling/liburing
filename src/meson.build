@@ -1,6 +1,6 @@
 subdir('include')
 
-inc = include_directories(['include', '.'])
+inc = include_directories(['include'])
 
 liburing = library('uring',
                    'queue.c',
