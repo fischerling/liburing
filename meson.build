@@ -31,9 +31,9 @@ has__kernel_timespec = cc.has_members('struct __kernel_timespec',
                                       prefix: '#include <linux/time.h>')
 
 code = '''#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
+#include <linux/openat2.h>
 int main(int argc, char **argv)
 {
   struct open_how how;

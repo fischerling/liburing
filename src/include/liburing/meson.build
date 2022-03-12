@@ -19,7 +19,7 @@ struct __kernel_timespec {
 endif
 
 if has_open_how
-    open_how_compat = ''
+    open_how_compat = '#include <linux/openat2.h>'
 else
     open_how_compat = '''#include <inttypes.h>
 
