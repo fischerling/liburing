@@ -74,6 +74,10 @@ has_cxx = cpp.compiles(code, name: 'C++')
 has_ucontext = (cc.has_type('ucontext_t', prefix: '#include <ucontext.h>')
   and cc.has_function('makecontext', prefix: '#include <ucontext.h>'))
 
+has_memfd_create = cc.has_function('memfd_create',
+                                   args: ['-D_GNU_SOURCE'],
+                                   prefix: '#include <sys/mman.h>')
+
 conf_data = configuration_data()
 conf_data.set('CONFIG_HAVE_KERNEL_RWF_T', has__kernel_rwf_t)
 conf_data.set('CONFIG_HAVE_KERNEL_TIMESPEC', has__kernel_timespec)
@@ -81,6 +85,7 @@ conf_data.set('CONFIG_HAVE_OPEN_HOW', has_open_how)
 conf_data.set('CONFIG_HAVE_STATX', has_statx)
 conf_data.set('CONFIG_HAVE_CXX', has_cxx)
 conf_data.set('CONFIG_HAVE_UCONTEXT', has_ucontext)
+conf_data.set('CONFIG_HAVE_MEMFD_CREATE', has_memfd_create)
 configure_file(output: 'config-host.h',
                configuration: conf_data)
 
