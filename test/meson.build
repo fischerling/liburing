@@ -188,6 +188,10 @@ foreach test_source: all_tests
          suite: 'parallel')
 endforeach
 
+add_test_setup('runtests',
+               exclude_suites: ['loop', 'parallel'],
+               is_default: true)
+
 test_runners = ['runtests.sh', 'runtests-loop.sh', 'runtests-quiet.sh']
 
 foreach test_runner: test_runners
