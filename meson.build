@@ -75,6 +75,10 @@ has_memfd_create = cc.has_function('memfd_create',
                                    args: ['-D_GNU_SOURCE'],
                                    prefix: '#include <sys/mman.h>')
 
+nolibc = get_option('nolibc')
+
+build_tests = get_option('tests')
+
 conf_data = configuration_data()
 conf_data.set('CONFIG_HAVE_KERNEL_RWF_T', has__kernel_rwf_t)
 conf_data.set('CONFIG_HAVE_KERNEL_TIMESPEC', has__kernel_timespec)
@@ -84,6 +88,8 @@ conf_data.set('CONFIG_HAVE_GLIBC_STATX', glibc_statx)
 conf_data.set('CONFIG_HAVE_CXX', has_cxx)
 conf_data.set('CONFIG_HAVE_UCONTEXT', has_ucontext)
 conf_data.set('CONFIG_HAVE_MEMFD_CREATE', has_memfd_create)
+conf_data.set('CONFIG_NOLIBC', nolibc)
+conf_data.set('LIBURING_BUILD_TEST', build_tests)
 configure_file(output: 'config-host.h',
                configuration: conf_data)
 
@@ -94,7 +100,7 @@ if get_option('examples')
     subdir('examples')
 endif
 
-if get_option('tests')
+if build_tests
     if get_option('default_library') != 'both'
         error('default_library=both required to build tests')
     endif

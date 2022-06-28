@@ -153,6 +153,17 @@ if has_array_bounds
 endif
 
 test_dependencies = [thread_dep]
+
+if nolibc
+  syscall_lib = static_library('syscall',
+                        '../src/syscall.c',
+                        include_directories: liburing_includes)
+
+  syscall_dep = declare_dependency(link_with: syscall_lib,
+                                   include_directories: liburing_includes)
+  test_dependencies += [syscall_dep]
+endif
+
 fs = import('fs')
 
 foreach test_source: all_tests
@@ -161,7 +172,7 @@ foreach test_source: all_tests
                [test_source, 'helpers.c'],
                c_args: xcflags,
                cpp_args: xcflags,
-               include_directories: inc,
+               include_directories: liburing_internal_includes,
                link_with: liburing.get_static_lib(),
                dependencies: test_dependencies,
                install: true,
