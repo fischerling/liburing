@@ -168,15 +168,15 @@ fs = import('fs')
 
 foreach test_source: all_tests
     test_name = fs.stem(test_source)
-    executable(test_name,
-               [test_source, 'helpers.c'],
-               c_args: xcflags,
-               cpp_args: xcflags,
-               include_directories: liburing_internal_includes,
-               link_with: liburing.get_static_lib(),
-               dependencies: test_dependencies,
-               install: true,
-               install_dir: get_option('datadir') / 'liburing-test')
+    test_exe = executable(test_name,
+                          [test_source, 'helpers.c'],
+                          c_args: xcflags,
+                          cpp_args: xcflags,
+                          include_directories: liburing_internal_includes,
+                          link_with: liburing.get_static_lib(),
+                          dependencies: test_dependencies,
+                          install: true,
+                          install_dir: get_option('datadir') / 'liburing-test')
 
     test(test_name,
          runtests_sh,
@@ -197,6 +197,10 @@ foreach test_source: all_tests
          args: test_name,
          workdir: meson.current_build_dir(),
          suite: 'parallel')
+
+    test(test_name + '_raw',
+         test_exe,
+         suite: 'raw')
 endforeach
 
 add_test_setup('runtests',
